@@ -3,8 +3,6 @@
 #include <cstdlib> 
 #include <ctime>   
 
-//#define GLEW_STATIC
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -12,7 +10,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-// Shaders
 #include "Shader.h"
 
 const GLint WIDTH = 800, HEIGHT = 600;
@@ -23,7 +20,7 @@ float randomFloat(float min, float max) {
 
 glm::mat4 crearTransformacionAleatoria() {
     glm::mat4 model = glm::mat4(1.0f);
-    glm::vec3 traslacion(randomFloat(-5.0f, 5.0f), randomFloat(-5.0f, 5.0f), randomFloat(-5.0f, 5.0f));
+    glm::vec3 traslacion(randomFloat(-2.0f, 2.0f), randomFloat(-2.0f, 2.0f), randomFloat(-2.0f, 2.0f));
     model = glm::translate(model, traslacion);
     float angulo = randomFloat(0.0f, 360.0f);
     glm::vec3 ejeRotacion(randomFloat(0.0f, 1.0f), randomFloat(0.0f, 1.0f), randomFloat(0.0f, 1.0f));
@@ -34,7 +31,7 @@ glm::mat4 crearTransformacionAleatoria() {
         ejeRotacion = glm::vec3(1.0f, 0.0f, 0.0f);
     }
     model = glm::rotate(model, glm::radians(angulo), ejeRotacion);
-    float escala = randomFloat(0.0f, 1.0f);
+    float escala = randomFloat(0.5f, 1.5f);
     model = glm::scale(model, glm::vec3(escala, escala, escala));
 
     return model;
@@ -73,14 +70,14 @@ int main() {
     Shader ourShader("Shader/core.vs", "Shader/core.frag");
 
     float vertices[] = {
-        -0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // Front
+        -0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
          0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
          0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
          0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
         -0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
         -0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
 
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // Back
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
          0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
          0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
          0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
@@ -124,11 +121,9 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // Posición
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
 
-    // Color
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
 
@@ -137,9 +132,9 @@ int main() {
 
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 100.0f);
-   
+
     std::vector<glm::mat4> cubosEscena;
-    for (int i = 0; i < 1000000; i++) { 
+    for (int i = 0; i < 5; i++) {
         cubosEscena.push_back(crearTransformacionAleatoria());
     }
 
