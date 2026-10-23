@@ -191,15 +191,16 @@ int main()
         GLint viewPosLoc = glGetUniformLocation(lightingShader.Program, "viewPos");
         glUniform3f(lightPosLoc, lightPos.x + movelightPos, lightPos.y + movelightPos, lightPos.z + movelightPos);
         glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.ambient"), 0.0f, 0.0f, 0.0f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.diffuse"), 1.0f, 0.0f, 0.0f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.specular"), 0.0f, 0.0f, 0.0f);
 
         glUniform3f(glGetUniformLocation(lightingShader.Program, "light2.position"),
             lightPos2.x + movelightPos2, lightPos2.y, lightPos2.z + movelightPos2);
         glUniform3f(glGetUniformLocation(lightingShader.Program, "light2.ambient"), 0.0f, 0.0f, 0.0f);
         glUniform3f(glGetUniformLocation(lightingShader.Program, "light2.diffuse"), 0.0f, 0.0f, 1.0f);
         glUniform3f(glGetUniformLocation(lightingShader.Program, "light2.specular"), 0.0f, 0.0f, 0.0f);
+
+        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.ambient"), 0.0f, 0.0f, 0.0f);
+        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.diffuse"), 1.0f, 0.0f, 0.0f);
+        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.specular"), 0.0f, 0.0f, 0.0f);
 
 
         glm::mat4 view = camera.GetViewMatrix();
@@ -223,8 +224,6 @@ int main()
         lampshader.Use();
         glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-
-        glUniform3f(glGetUniformLocation(lampshader.Program, "lampColor"), 1.0f, 0.0f, 0.0f);
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos + movelightPos);
         model = glm::scale(model, glm::vec3(0.3f));
@@ -233,7 +232,6 @@ int main()
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
 
-        glUniform3f(glGetUniformLocation(lampshader.Program, "lampColor"), 0.0f, 0.0f, 1.0f);
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos2 + movelightPos2);
         model = glm::scale(model, glm::vec3(0.3f));
